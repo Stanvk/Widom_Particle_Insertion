@@ -1,4 +1,4 @@
-from TestParticle import TestParticle
+from Widom.TestParticle import TestParticle
 import numpy as np
 
 class Dioxygen(TestParticle):

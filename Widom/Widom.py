@@ -2,7 +2,8 @@ import time
 import numpy as np
 import MDAnalysis as md
 import matplotlib.pyplot as plt
-from TestParticle import TestParticle
+# import TestParticle as TestParticle
+from Widom.TestParticle import TestParticle
 
 class Widom:
 
