@@ -39,7 +39,7 @@ tpi.set_sample(sample, {'CH2': [0.38493, 3.950], 'CH3': [0.81588, 3.750]})
 # tpi.set_sample(sample, {'CH': [0.0828, 4.680], 'CH2': [0.3818, 3.950], 'CH3': [0.8139, 3.750]}) #iPP
 
 # tpi.prepare(frame = config.get('frame'), number_of_insertions = config.get('n_insertions'))
-tpi.prepare(frame=0, number_of_insertions=100000)
+tpi.prepare(frame=0, number_of_insertions=200000)
 tpi.run()
 
 # np.save(config.output_path + 'LJ_energies_'+str(timestamp)+'_frame_'+str(frame)+'.npy', tpi.get_LJ_energies())
