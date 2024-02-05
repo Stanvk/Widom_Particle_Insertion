@@ -14,7 +14,8 @@ class TestParticle(ABC):
         return self
 
     def get_particle_name(self) -> str:
-        return __class__
+        
+        return str(__class__)
 
     @abstractmethod
     def _calculate_positions(self) -> np.array:

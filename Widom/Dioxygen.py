@@ -10,6 +10,7 @@ class Dioxygen(TestParticle):
         @params: (None)
         @returns: (list)
         """
+        # kJ/mol en Å
         return np.array([[0.40734, 3.02], [0.40734, 3.02]])
         # return np.array([[0.407409, 3.02], [0.407409, 3.02]]) # Values from Nikos used for testing.
 
@@ -21,8 +22,8 @@ class Dioxygen(TestParticle):
         params: (None)
         returns: Lennard-Jones cut-off radius in Ångstrom. (float)
         """
-        return 14 #angstrom
-        # return 9.09 #angstrom; values from Nikos used for testing
+        # return 14 #angstrom
+        return 9.09 #angstrom; values from Nikos used for testing
     
     def get_atomtypes(self):
         """
@@ -64,7 +65,11 @@ class Dioxygen(TestParticle):
         part = Dioxygen.__transform_spherical_to_cartesian(r, theta, phi)
 
         # return np.array([[4.687089599, 12.8870504, 53.88286897],[5.182721359, 13.03486294, 52.78897656]]) # insertion 1 of Omar
-        
+        # return np.array([[34.11453381, 7.6544122, 116.5455118],[34.81119064, 7.750164678, 117.5301949]]) # insertion 2 of Omar
+        # return np.array([[33.82512735, 6.431934709, 75.96615388],[32.95696881, 6.164926415, 76.76559576]]) # insertion 3 of Omar
+        return np.array([[23.92219826, 12.18719422, 86.64278244],[24.26723019, 11.78584686, 87.73088779]]) # insertion 4 of Omar
+        # return np.array([[60.36825102, 17.23110917, 2.207646596],[60.96426553, 16.22642367, 2.523041194]]) # insertion 5 of Omar
+
         # return np.array([[66.99,115.04,09.61],[67.93,114.32,09.86]]) # insertion 3 of Nikos
         # return np.array([[61.27, 7.46, 29.71], [61.47, 7.22, 28.54]]) # insertion 2 of Nikos
         
@@ -72,4 +77,4 @@ class Dioxygen(TestParticle):
         # return np.array([[66.98,47.27,97.48], [67.10,47.24,98.68]]) # test particle 2
         # return np.array([[57.02, 73.07, 76.28],[56.26, 72.19, 76.59]])
 
-        return np.array([center+part, center-part]) 
+        # return np.array([center+part, center-part]) 

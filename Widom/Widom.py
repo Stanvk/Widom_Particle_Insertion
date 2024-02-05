@@ -2,7 +2,7 @@ import time
 import numpy as np
 import MDAnalysis as md
 import matplotlib.pyplot as plt
-# import TestParticle as TestParticle
+from datetime import datetime
 from Widom.TestParticle import TestParticle
 
 class Widom:
@@ -14,7 +14,6 @@ class Widom:
         params: test_particle (TestParticle)
         returns: self (Widom)
         """
-
         self._test_particle = test_particle
 
     @staticmethod
@@ -38,8 +37,9 @@ class Widom:
         """
         c6 = 4*epsilon*sigma**6
         c12 = 4*epsilon*sigma**12
-        
+
         return (4/9)*(np.pi/volume)*(c12/(cut_off_radius**9)-3*c6/(cut_off_radius**3))
+    
 
 
     @staticmethod
@@ -192,6 +192,13 @@ class Widom:
 
         return self._LJ_energies
     
+    def save_LJ_energies(self, path, stamp):
+
+        np.savetxt(path+'LJ_energies_'+stamp+'.txt', self.get_LJ_energies())
+
+        return self.get_LJ_energies()
+    
+    
     @staticmethod
     def calculate_moving_solubility(temperature: float, dE: np.array):
         """
@@ -200,6 +207,8 @@ class Widom:
         params: temperature (float)
         returns rolling_mean (np.array)
         """
+        Widom.write_log("Make sure the temperature is set correctly!")
+
         #dE kJ/mol
         R = 8.31446261815324/1000 #kJ / (K mol)
         T = temperature #K
@@ -207,3 +216,15 @@ class Widom:
         exp_de = np.exp(-dE/(R*T))
         
         return np.array([np.mean(exp_de[:i]) for i in range(1,len(dE))])
+    
+    @staticmethod
+    def write_log(message: str):
+        """
+        Helper function to put a message out. For now it prints in the console
+
+        params: message (str)
+        returns: message (str)
+        """
+        print(message)
+        
+        return message

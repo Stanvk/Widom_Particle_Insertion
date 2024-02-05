@@ -1,5 +1,6 @@
 import json
 import os
+from datetime import datetime
 
 class Container:
     """
@@ -19,10 +20,22 @@ class Container:
         self._container = {}
         self.basepath = basepath
         self.output_path = self.basepath + relative_output_path
+        
+        self.generate_timestamp()
 
         if not os.path.exists(self.output_path):
             # raise FileNotFoundError("Directory not found! Please make sure that the directory exists before running the script.")
             os.mkdir(self.output_path)
+
+    def generate_timestamp(self):
+
+        self._timestamp = datetime.now().strftime("%d_%m_%Y_%H%M%S")
+
+        return self
+
+    def get_timestamp(self):
+
+        return self._timestamp
 
     def set_array(self, array: dict):
         """
