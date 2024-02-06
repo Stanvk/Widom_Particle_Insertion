@@ -11,11 +11,8 @@ class Container:
         """
         Initiate a new Container object.
 
-        Params
-        basepath [string] - The path to save the configuration.
-
-        Returns
-        self [Container] - Return current instance
+        @params: basepath (string)
+        @returns: (self)
         """
         self._container = {}
         self.basepath = basepath
@@ -28,24 +25,31 @@ class Container:
             os.mkdir(self.output_path)
 
     def generate_timestamp(self):
+        """
+        Generate a timestamp.
 
+        @params:
+        @return: (self)
+        """
         self._timestamp = datetime.now().strftime("%d_%m_%Y_%H%M%S")
 
         return self
 
     def get_timestamp(self):
+        """
+        Returns generate timestamp.
 
+        @params:
+        @returns timestamp (str)
+        """
         return self._timestamp
 
     def set_array(self, array: dict):
         """
         Add an array of key, value pairs in the container.
 
-        Params
-        array [dict] - Dictionary of key value pairs to set in container.
-
-        Returns
-        self [Container] - Return current instance
+        @params: array (dict)
+        #returns: (self)
         """
         for k,v in array.items():
             self.set(k,v)
@@ -56,12 +60,8 @@ class Container:
         """
         Set a key and corresponding value in the container.
 
-        Params
-        key [mixed] - Identifier for container value
-        value [mixed] - Value corresponding to key
-
-        Returns
-        self [Container] - Return current instance.
+        @params: key (mixed), value (mixed)
+        @returns: (self)
         """
         self._container[key] = value
 
@@ -71,14 +71,9 @@ class Container:
         """
         Get a value from the container corresponding to its identifier key.
 
-        Params
-        key [mixed] - Identifier for container value.
-
-        Returns
-        value [mixed] - Value found in the container
-
-        Raises
-        ValueError - if key does not exist.
+        @params: key (mixed)
+        @returns: value (mixed)
+        @raises: ValueError
         """
         if key not in self._container:
             raise KeyError("Key does not exist in container!")
@@ -89,11 +84,8 @@ class Container:
         """
         Saves complete container to a json file.
 
-        Params
-        path [string/None] - Path to save config file to.
-
-        Returns
-        self [Container] - Returns current instance.
+        @params: path (mixed)
+        @returns: (self)
         """
         if path is None:
             path = self.output_path
@@ -107,11 +99,8 @@ class Container:
         """
         Load new container into current instance.
 
-        Params
-        path [string/None] - Path to load json from
-
-        Returns
-        self [Container] - Returns current instance with freshly loaded data.
+        @params: path (mixed)
+        @returns: (self)
         """
         if path is None:
             path = self.output_path

@@ -40,15 +40,13 @@ class Widom:
 
         return (4/9)*(np.pi/volume)*(c12/(cut_off_radius**9)-3*c6/(cut_off_radius**3))
     
-
-
     @staticmethod
     def _compose_combined_LJ_params(epsilon_tp, sigma_tp, epsilons, sigmas) -> list:
         """
         Compose combined LJ parameters according to Lorentz-Berthelot combination rules.
 
-        params: epislon_tp (float), sigma_tp (float), epsilons (list), sigmas (list)
-        returns: [combined_epsilons, combined_sigmas] (list)
+        @params: epislon_tp (float), sigma_tp (float), epsilons (list), sigmas (list)
+        @returns: [combined_epsilons, combined_sigmas] (list)
         """
         #TODO: Place these combination rules in a seperate class to adhere to SOLID principles
         combined_sigmas = np.array(0.5*(sigma_tp+sigmas))
@@ -60,8 +58,8 @@ class Widom:
         """
         Give a list of all the atoms that we're interested in.
 
-        params: None
-        returns: list of atomtypes (list)
+        @params: None
+        @returns: list of atomtypes (list)
         """
 
         try:
@@ -77,8 +75,8 @@ class Widom:
         """
         Construct a list with all the epsilons and sigmas for each atom in the sample.
 
-        params: ag (md.AtomGroup)
-        returns: [epsilons, sigmas] (list)
+        @params: ag (md.AtomGroup)
+        @returns: [epsilons, sigmas] (list)
         """
 
         epsilons = np.array([self._LJ_params[atomtype][0] for atomtype in ag.types])
@@ -90,8 +88,8 @@ class Widom:
         """
         Calculate the total Lennard-Jones potential energy of the system.
 
-        params: insertion_pos
-        returns: lennard-jones potential for given insertion_pos
+        @params: insertion_pos
+        @returns: lennard-jones potential for given insertion_pos
         """
         
         distances = np.linalg.norm(ag.positions - insertion_pos, axis=-1)
@@ -105,8 +103,8 @@ class Widom:
         """
         Prepare the sample using MDAnalysis.
 
-        params: sample (MDAnalysis.core.universe), LJ_params (dict)
-        returns: self (Widom)
+        @params: sample (MDAnalysis.core.universe), LJ_params (dict)
+        @returns: self (Widom)
         """
 
         if set(sample.select_atoms('all').types) != set(LJ_params.keys()):
@@ -121,8 +119,8 @@ class Widom:
         """
         Prepare the atomgroup, calculate the volume of the simulation box and generate the insertion locations. After that calculate the combined Lennard Jones parameters for each couple
 
-        params: frame (int), number_of_insertions (int)
-        returns: self (Widom)
+        @params: frame (int), number_of_insertions (int)
+        @returns: self (Widom)
         """
         
         self._sample.trajectory[frame]
@@ -146,19 +144,26 @@ class Widom:
         return self
     
     def run(self):
-        
+        """
+        Start the Widom Test Particle Insertion Analysis.
+
+        @params:
+        @returns: (self)
+        """
         print("Starting Widom Particle Insertion Analysis")
         starttime = time.time()
         self._run_analysis()
         self._run_time = time.time() - starttime
         print('Finished! Analysis ran for ' + str(self._run_time) + ' seconds')
+
+        return self
         
     def _run_analysis(self):
         """
         Perform the actual insertions and calculate the LJ potential.
         
-        params: (None)
-        returns: self (Widom)
+        @params:
+        @returns: (self)
         """
 
         LJ_energies = np.zeros((self.number_of_insertions, len(self._test_particle.get_atomtypes())))
@@ -186,14 +191,19 @@ class Widom:
         """
         Return the Lennard-Jones insertion energies per insertion.
 
-        params: (None)
-        returns: LJ energies (np.array)
+        @params: (None)
+        @returns: LJ energies (np.array)
         """
 
         return self._LJ_energies
     
     def save_LJ_energies(self, path, stamp):
+        """
+        Helper function to save the LJ energies.
 
+        @params: path (str), stamp (str)
+        @returns: LJ_energies (np.array)
+        """
         np.savetxt(path+'LJ_energies_'+stamp+'.txt', self.get_LJ_energies())
 
         return self.get_LJ_energies()
