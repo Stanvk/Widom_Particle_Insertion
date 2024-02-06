@@ -15,3 +15,5 @@ config.set('LJ_params_solvent', {'CH2': [0.38493, 3.950], 'CH3': [0.81588, 3.750
 # config.set('LJ_params_solvent', {'CH': [0.0828, 4.680], 'CH2': [0.3818, 3.950], 'CH3': [0.8139, 3.750]})
 
 config.save(filename='config_'+config.get_timestamp())
+
+print('Configuration file saved under: config_' + config.get_timestamp())
