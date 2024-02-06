@@ -31,7 +31,8 @@ class Container:
         @params:
         @return: (self)
         """
-        self.set('timestamp', datetime.now().strftime("%d_%m_%Y_%H%M%S"))
+        if not self.exists('timestamp'):
+            self.set('timestamp', datetime.now().strftime("%d_%m_%Y_%H%M%S"))
 
         return self
 
@@ -55,6 +56,18 @@ class Container:
             self.set(k,v)
 
         return self
+
+    def exists(self, key):
+        """
+        Check if a key is set in the container.
+
+        @params: key (str)
+        @returns: (bool)
+        """
+        if key in self._container:
+            return True
+
+        return False
 
     def set(self, key, value):
         """
