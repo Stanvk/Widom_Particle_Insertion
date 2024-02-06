@@ -2,7 +2,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from Helpers.Container import Container
 import MDAnalysis as md
-from datetime import datetime
 from Widom.Widom import Widom
 from Widom.Dioxygen import Dioxygen
 from Helpers.Plotter import Plotter
@@ -10,10 +9,13 @@ from Helpers.Plotter import Plotter
 basepath = '/Users/stanvk/Projects/NTUA/systems/pe_configurations_298K/'
 relative_outputpath = 'Analysis/Widom/'
 
-config = Container(basepath, relative_outputpath).load(filename='')
+config_file = 'config_06_02_2024_151624'
+
+config = Container(basepath, relative_outputpath).load(filename=config_file)
 
 sample = md.Universe(basepath+config.get('topology_file'), basepath+config.get('coordinate_file'))
 
+config.set('test_particle', 'Dioxygen')
 config.set('frame_series', np.arange(0,len(sample.trajectory),1).tolist())
 config.save(filename='config_'+config.get_timestamp())
 
