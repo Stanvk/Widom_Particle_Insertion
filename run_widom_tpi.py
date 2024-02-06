@@ -7,27 +7,30 @@ from Widom.Widom import Widom
 from Widom.Dioxygen import Dioxygen
 from Helpers.Plotter import Plotter
 
-basepath = '/Users/stanvk/Projects/NTUA/systems/pe_configurations_280K/'
+basepath = '/Users/stanvk/Projects/NTUA/systems/pe_configurations_298K/'
 relative_outputpath = 'Analysis/Widom/'
-
-sample = md.Universe(basepath+'pe.tpr', basepath+'amorphous.gro')
 
 config = Container(basepath, relative_outputpath)
 config.set('basepath', basepath)
+config.set('topology_file', 'pe.tpr')
+config.set('coordinate_file', 'semicryst.gro')
 config.set('relative_outputpath',relative_outputpath)
 config.set('temperature', 298)
-config.set('frame_series', np.arange(0,len(sample.trajectory),1).tolist())
-config.set('n_iterations', 1e6)
+config.set('n_insertions', int(1e5))
 config.set('frame', 0)
 config.set('test_particle', 'Dioxygen')
 config.set('LJ_params_solvent', {'CH2': [0.38493, 3.950], 'CH3': [0.81588, 3.750]})
 # {'CH': [0.0828, 4.680], 'CH2': [0.3818, 3.950], 'CH3': [0.8139, 3.750]}
-config.save(filename='config_'+config.get_timestamp()+'.txt')
+
+sample = md.Universe(basepath+config.get('topology_file'), basepath+config.get('coordinate_file'))
+
+config.set('frame_series', np.arange(0,len(sample.trajectory),1).tolist())
+config.save(filename='config_'+config.get_timestamp())
 
 tpi = Widom(Dioxygen())
 tpi.set_sample(sample, config.get('LJ_params_solvent'))
 
-tpi.prepare(frame=config.get('frame'), number_of_insertions=config.get('n_iterations'))
+tpi.prepare(frame=config.get('frame'), number_of_insertions=config.get('n_insertions'))
 tpi.run()
 
 Plotter()

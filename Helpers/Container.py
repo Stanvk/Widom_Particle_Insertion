@@ -31,7 +31,7 @@ class Container:
         @params:
         @return: (self)
         """
-        self._timestamp = datetime.now().strftime("%d_%m_%Y_%H%M%S")
+        self.set('timestamp', datetime.now().strftime("%d_%m_%Y_%H%M%S"))
 
         return self
 
@@ -42,7 +42,7 @@ class Container:
         @params:
         @returns timestamp (str)
         """
-        return self._timestamp
+        return self.get('timestamp')
 
     def set_array(self, array: dict):
         """
@@ -80,7 +80,7 @@ class Container:
 
         return self._container[key]
 
-    def save(self, path = None, extension='txt', filename='config'):
+    def save(self, path = None, extension='txt', filename=None):
         """
         Saves complete container to a json file.
 
@@ -89,13 +89,16 @@ class Container:
         """
         if path is None:
             path = self.output_path
+
+        if filename is None:
+            filename = 'config_'+self.get_timestamp()
         
         with open(path+filename+'.'+extension, 'w') as file:
             file.write(json.dumps(self._container)) # use `json.loads` to do the reverse
 
         return self
 
-    def load(self, path = None, *, extension='txt'):
+    def load(self, path = None, extension='txt', filename='config'):
         """
         Load new container into current instance.
 
@@ -105,7 +108,7 @@ class Container:
         if path is None:
             path = self.output_path
 
-        with open(path+'config.' + extension, 'r') as file:
+        with open(path+filename + '.' + extension, 'r') as file:
             self._container = json.load(file)
 
         return self
