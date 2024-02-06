@@ -19,8 +19,8 @@ class Dioxygen(TestParticle):
         """
         Retrieve the cut-off distance for the Lennard-Jones potential. The units are in Ångstroms (Å).
 
-        params: (None)
-        returns: Lennard-Jones cut-off radius in Ångstrom. (float)
+        @params: (None)
+        @returns: Lennard-Jones cut-off radius in Ångstrom. (float)
         """
         # return 14 #angstrom
         return 9.09 #angstrom; values from Nikos used for testing

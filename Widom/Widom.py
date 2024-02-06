@@ -11,8 +11,8 @@ class Widom:
         """
         Initialize the Widom class. Set the test-particle.
 
-        params: test_particle (TestParticle)
-        returns: self (Widom)
+        @params: test_particle (TestParticle)
+        @returns: self (Widom)
         """
         self._test_particle = test_particle
 
@@ -21,8 +21,8 @@ class Widom:
         """
         Calculate LJ potential by the 12/6 LJ function. Supports matrix-matrix arithmetics for fast bulk calculations.
 
-        params: dist (np.array), epsilon (np.array), sigma (np.array)
-        returns: (np.array)
+        @params: dist (np.array), epsilon (np.array), sigma (np.array)
+        @returns: (np.array)
         """
         # c6 = 4*epsilon*sigma**6
         # c12 = 4*epsilon*sigma**12
@@ -34,6 +34,9 @@ class Widom:
         """
         Calculate the correction term for the Lennard-Jones potential energy, according to "Solubilities of small molecules in polyethylene evaluated by
         a test-particle-insertion method" from Fukuda, 2000.
+        
+        @params: cut_off_radius (mixed), epsilon (mixed), sigma (mixed), volume (mixed)
+        @returns: correction term (mixed)
         """
         c6 = 4*epsilon*sigma**6
         c12 = 4*epsilon*sigma**12
@@ -48,7 +51,6 @@ class Widom:
         @params: epislon_tp (float), sigma_tp (float), epsilons (list), sigmas (list)
         @returns: [combined_epsilons, combined_sigmas] (list)
         """
-        #TODO: Place these combination rules in a seperate class to adhere to SOLID principles
         combined_sigmas = np.array(0.5*(sigma_tp+sigmas))
         combined_epsilons = np.array(np.sqrt(epsilon_tp*epsilons))
 
@@ -60,6 +62,7 @@ class Widom:
 
         @params: None
         @returns: list of atomtypes (list)
+        @raises: KeyError
         """
 
         try:
@@ -134,7 +137,6 @@ class Widom:
         ymin, ymax = [np.min(ycoods), np.max(ycoods)]
         zmin, zmax = [np.min(zcoods), np.max(zcoods)]
 
-        # self.volume = (xmax-xmin)*(ymax-ymin)*(zmax-zmin)
         self.volume = self._ag.ts.volume
         self.number_of_insertions = number_of_insertions
         self.insertion_locations = np.random.rand(int(number_of_insertions), 3)*np.array([xmax-xmin, ymax-ymin, zmax-zmin])+np.array([xmin, ymin, zmin], dtype='float64')
@@ -214,8 +216,8 @@ class Widom:
         """
         Helper function to calculate the solubility coefficient based upon the Lennard-Jones insertion energy.
 
-        params: temperature (float)
-        returns rolling_mean (np.array)
+        @params: temperature (float)
+        @returns rolling_mean (np.array)
         """
         Widom.write_log("Make sure the temperature is set correctly!")
 
@@ -232,8 +234,8 @@ class Widom:
         """
         Helper function to put a message out. For now it prints in the console
 
-        params: message (str)
-        returns: message (str)
+        @params: message (str)
+        @returns: message (str)
         """
         print(message)
         
