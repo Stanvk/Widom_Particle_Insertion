@@ -3,7 +3,6 @@ import numpy as np
 from Helpers.Container import Container
 import MDAnalysis as md
 from datetime import datetime
-# from Widom.TestParticle import TestParticle
 from Widom.Widom import Widom
 from Widom.Dioxygen import Dioxygen
 from Helpers.Plotter import Plotter
@@ -16,7 +15,7 @@ sample = md.Universe(basepath+'pe.tpr', basepath+'amorphous.gro')
 config = Container(basepath, relative_outputpath)
 config.set('basepath', basepath)
 config.set('relative_outputpath',relative_outputpath)
-config.set('temperature', 280)
+config.set('temperature', 298)
 config.set('frame_series', np.arange(0,len(sample.trajectory),1).tolist())
 config.set('n_iterations', 1e6)
 config.set('frame', 0)
@@ -41,7 +40,7 @@ plt.ylabel(r'$\mathrm{Frequency}$')
 plt.savefig(config.output_path+'LJ_energies_histogram_'+config.get_timestamp()+'.pdf', format='pdf', bbox_inches='tight')
 plt.close()
 
-plt.plot(range(1,tpi.number_of_insertions), tpi.calculate_moving_solubility(298.15, tpi.get_LJ_energies()))
+plt.plot(range(1,tpi.number_of_insertions), tpi.calculate_moving_solubility(config.get('temperature'), tpi.get_LJ_energies()))
 plt.ylabel(r'$\langle \exp(-\beta \Delta E)\rangle_N$')
 plt.xlabel(r'Iteration number $N$')
 plt.savefig(config.output_path+'solubility_'+config.get_timestamp()+'.pdf', format='pdf', bbox_inches='tight')
