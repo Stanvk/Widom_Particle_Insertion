@@ -4,10 +4,11 @@ import MDAnalysis as md
 import matplotlib.pyplot as plt
 from datetime import datetime
 from Widom.TestParticle import TestParticle
+from Widom.Multiprocess import Multiprocess
 
 class Widom:
 
-    def __init__(self, test_particle: TestParticle):
+    def __init__(self, test_particle: TestParticle, *, processes = 1):
         """
         Initialize the Widom class. Set the test-particle.
 
@@ -15,6 +16,8 @@ class Widom:
         @returns: self (Widom)
         """
         self._test_particle = test_particle
+        self._n_processes = processes
+        self.insertion_energies = np.array([])
 
     @staticmethod
     def lennard_jones_potential(dist: np.array, epsilon: np.array, sigma: np.array):
@@ -125,7 +128,7 @@ class Widom:
         @params: frame (int), number_of_insertions (int)
         @returns: self (Widom)
         """
-        
+        self._frame = frame
         self._sample.trajectory[frame]
         self._ag = self._sample.select_atoms('all', updating=True)
 
@@ -149,18 +152,24 @@ class Widom:
         """
         Start the Widom Test Particle Insertion Analysis.
 
-        @params:
+        @params: processes (int)
         @returns: (self)
         """
-        print("Starting Widom Particle Insertion Analysis")
+        self.write_log("Starting Widom Particle Insertion Analysis")
+        self.write_log(str(self._n_processes) + " process(es) will be used!")
         starttime = time.time()
-        self._run_analysis()
+
+        governor = Multiprocess().load(self, n_processes=self._n_processes)
+        governor.run()
+        self.insertion_energies = governor.get_insertion_energies()
+        # self.insertion_locations = governor.insertion_locations
+
         self._run_time = time.time() - starttime
-        print('Finished! Analysis ran for ' + str(self._run_time) + ' seconds')
+        self.write_log('Finished! Analysis ran for ' + str(self._run_time) + ' seconds')
 
         return self
         
-    def _run_analysis(self):
+    def run_analysis(self):
         """
         Perform the actual insertions and calculate the LJ potential.
         
@@ -180,14 +189,30 @@ class Widom:
 
             for i in range(self.number_of_insertions):
 
-                if i % 1000 == 0:
-                    print('Inserting ' + str(i) + '/' + str(self.number_of_insertions) + ' ('+str(100*i/self.number_of_insertions)+'%) of constituent ' + str(constituent) + ' ...', end='\r')
+                if i % 500 == 0:
+                    print('Inserting ' + str(i) + '/' + str(self.number_of_insertions) + ' ('+str(100*i/self.number_of_insertions)+'%) of constituent ' + str(constituent) + ' ...', end='\r', flush=True)
 
                 LJ_energies[i, constituent] = self._calculate_LJ_energy(insertion_locations_consituent[i, :], self._ag)
 
-        self._LJ_energies = LJ_energies.sum(axis=-1)
+        self.insertion_energies = LJ_energies.sum(axis=-1)
 
         return self
+    
+    def get_test_particle(self):
+
+        return self._test_particle
+    
+    def get_frame(self):
+
+        return self._frame
+    
+    def get_LJ_params(self):
+
+        return self._LJ_params
+    
+    def get_sample(self):
+
+        return self._sample
     
     def get_LJ_energies(self):
         """
@@ -197,7 +222,25 @@ class Widom:
         @returns: LJ energies (np.array)
         """
 
-        return self._LJ_energies
+        return self.insertion_energies
+    
+    def get_insertion_energies(self):
+        """
+        Return the insertion energies.
+
+        @params:
+        @returns: (np.array)
+        """
+        return self.get_LJ_energies()
+    
+    def get_insertion_locations(self):
+        """
+        Return insertion locations.
+
+        @params:
+        @returns: (np.array)
+        """
+        return self.insertion_locations
     
     def save_LJ_energies(self, path, stamp):
         """
@@ -206,10 +249,29 @@ class Widom:
         @params: path (str), stamp (str)
         @returns: LJ_energies (np.array)
         """
-        np.savetxt(path+'LJ_energies_'+stamp+'.txt', self.get_LJ_energies())
+        np.savetxt(path+'energies_'+stamp+'.txt', self.get_LJ_energies())
 
         return self.get_LJ_energies()
     
+    def save_insertion_energies(self, path: str, stamp: str):
+        """
+        Save the insertion energies to a txt file.
+
+        @params: path (str), stamp (str)
+        @returns: (np.array)
+        """
+        return self.save_LJ_energies(path, stamp)
+    
+    def save_insertion_locations(self, path, stamp):
+        """
+        Save the insertion energies to a txt file.
+
+        @params: path (str), stamp (str)
+        @returns: (np.array)
+        """
+        np.savetxt(path+'locations_'+stamp+'.txt', self.get_insertion_locations())
+
+        return self.get_insertion_locations()
     
     @staticmethod
     def calculate_moving_solubility(temperature: float, dE: np.array):
@@ -226,17 +288,19 @@ class Widom:
         T = temperature #K
         
         exp_de = np.exp(-dE/(R*T))
-        
+
         return np.array([np.mean(exp_de[:i]) for i in range(1,len(dE))])
-    
+        # np.cumsum()/np.cumsum(np.ones(len(dE)))
+        # return np.convolve(exp_de, np.ones(w), 'valid') / w
+
     @staticmethod
-    def write_log(message: str):
+    def write_log(message: str, flush=False):
         """
         Helper function to put a message out. For now it prints in the console
 
         @params: message (str)
         @returns: message (str)
         """
-        print(message)
+        print(message, flush=flush)
         
         return message

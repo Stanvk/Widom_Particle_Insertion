@@ -1,7 +1,6 @@
 import os
 import sys
 import glob
-from datetime import datetime
 
 current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
@@ -28,10 +27,14 @@ for file in LJ_energies_files:
 
     LJ_energies = np.loadtxt(file)
     moving_solubility = Widom.calculate_moving_solubility(config.get('temperature'), LJ_energies)
+    converged_solubility = moving_solubility[-1]
 
     Plotter()
 
     plt.plot(range(1,int(config.get('n_insertions'))), moving_solubility)
+    plt.hlines(converged_solubility, xmin=plt.axes()[0], xmax=plt.axes()[1])
+    plt.text(plt.axes()[0], converged_solubility, str(converged_solubility), ha='left', va='center')
     plt.ylabel(r'$\langle \exp(-\beta \Delta E)\rangle_N$')
-    plt.xlabel(r'Iteration number $N$')
+    plt.xlabel(r'$\mathrm{Iteration}$ $N$')
     plt.savefig(config.output_path+'solubility_'+config.get_timestamp()+'.pdf', format='pdf', bbox_inches='tight')
+    plt.close()

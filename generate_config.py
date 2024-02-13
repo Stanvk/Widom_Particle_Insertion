@@ -6,7 +6,7 @@ relative_outputpath = 'Analysis/Widom/'
 config = Container(basepath, relative_outputpath)
 config.set('basepath', basepath)
 config.set('topology_file', 'pe.tpr')
-config.set('coordinate_file', 'semicryst.gro')
+config.set('coordinate_file', 'amorphous.gro')
 config.set('relative_outputpath',relative_outputpath)
 config.set('temperature', 298)
 config.set('n_insertions', int(1000))
