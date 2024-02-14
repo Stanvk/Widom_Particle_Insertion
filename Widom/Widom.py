@@ -188,10 +188,7 @@ class Widom:
             insertion_locations_consituent = self._test_particle.get_positions()[:,constituent,:]
 
             for i in range(self.number_of_insertions):
-
-                if i % 500 == 0:
-                    print('Inserting ' + str(i) + '/' + str(self.number_of_insertions) + ' ('+str(100*i/self.number_of_insertions)+'%) of constituent ' + str(constituent) + ' ...', end='\r', flush=True)
-
+                
                 LJ_energies[i, constituent] = self._calculate_LJ_energy(insertion_locations_consituent[i, :], self._ag)
 
         self.insertion_energies = LJ_energies.sum(axis=-1)

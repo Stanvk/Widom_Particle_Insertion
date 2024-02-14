@@ -5,6 +5,7 @@ import MDAnalysis as md
 from Widom.Widom import Widom
 from Widom.Dioxygen import Dioxygen
 from Helpers.Plotter import Plotter
+import time
 
 basepath = '/Users/stanvk/Projects/NTUA/systems/pe_configurations_298K/'
 relative_outputpath = 'Analysis/Widom/'
@@ -19,13 +20,16 @@ config.set('test_particle', 'Dioxygen')
 config.set('frame_series', np.arange(0,len(sample.trajectory),1).tolist())
 config.save(filename='config_'+config.get_timestamp())
 
-tpi = Widom(Dioxygen(), processes=4)
+tpi = Widom(Dioxygen(), processes=8)
 tpi.set_sample(sample, config.get('LJ_params_solvent'))
 
 tpi.prepare(frame=config.get('frame'), number_of_insertions=config.get('n_insertions'))
 
 if __name__ == '__main__':
+    starttime = time.time()
     tpi.run()
+    runtime = time.time() - starttime
+    print('time required ' + str(runtime))
 
 Plotter()
 
