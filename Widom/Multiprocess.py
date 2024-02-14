@@ -57,12 +57,11 @@ class Multiprocess:
             self._processes.append(p)
             p.start()
 
-        [p.join() for p in self._processes]
-
-        print('Processes finalized!')
-
         self._insertion_energies = [q.get() for q in self._queues_energies]
         self._insertion_locations = [q.get() for q in self._queues_locations]
+
+        [p.join() for p in self._processes]
+        print('Processes finalized!')
 
         return self
     
