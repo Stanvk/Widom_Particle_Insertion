@@ -188,7 +188,7 @@ class Widom:
             insertion_locations_consituent = self._test_particle.get_positions()[:,constituent,:]
 
             for i in range(self.number_of_insertions):
-                
+
                 LJ_energies[i, constituent] = self._calculate_LJ_energy(insertion_locations_consituent[i, :], self._ag)
 
         self.insertion_energies = LJ_energies.sum(axis=-1)
@@ -270,8 +270,7 @@ class Widom:
 
         return self.get_insertion_locations()
     
-    @staticmethod
-    def calculate_moving_solubility(temperature: float, dE: np.array):
+    def get_moving_solubility(self, temperature: float):
         """
         Helper function to calculate the solubility coefficient based upon the Lennard-Jones insertion energy.
 
@@ -284,10 +283,10 @@ class Widom:
         R = 8.31446261815324/1000 #kJ / (K mol)
         T = temperature #K
         
-        exp_de = np.exp(-dE/(R*T))
+        exp_de = np.exp(-self.get_insertion_energies()/(R*T))
 
-        return np.array([np.mean(exp_de[:i]) for i in range(1,len(dE))])
-        # np.cumsum()/np.cumsum(np.ones(len(dE)))
+        # return np.array([np.mean(exp_de[:i]) for i in range(1,len(dE))])
+        return np.cumsum(exp_de)/np.arange(1, len(exp_de) + 1)
         # return np.convolve(exp_de, np.ones(w), 'valid') / w
 
     @staticmethod

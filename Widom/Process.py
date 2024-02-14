@@ -9,7 +9,7 @@ class Process:
 
         sample = md.Universe(topology_file, coordinate_file)
 
-        print('Process ' +str(id)+' running!', flush=True)
+        # print('Process ' +str(id)+' running!', flush=True)
 
         starttime = time.time()
 
@@ -19,12 +19,12 @@ class Process:
         tpi.run_analysis()
 
         runtime = time.time()-starttime
-        print('Process ' + str(id) + ' finished in ' + str(runtime) + 's.', flush=True)
+        # print('Process ' + str(id) + ' finished in ' + str(runtime) + 's.', flush=True)
 
         queue_energies.put(tpi.get_insertion_energies().tolist())
 
-        print('Process ' +str(id)+' queued insertion energies!', flush=True)
+        # print('Process ' +str(id)+' queued insertion energies!', flush=True)
 
         queue_locations.put(tpi.get_insertion_locations().tolist())
 
-        print('Process ' +str(id)+' queued insertion locations!', flush=True)
+        # print('Process ' +str(id)+' queued insertion locations!', flush=True)
