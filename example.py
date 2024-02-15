@@ -39,7 +39,13 @@ if __name__ == '__main__':
     plt.savefig(config.output_path+'LJ_energies_histogram_'+config.get_timestamp()+'.pdf', format='pdf', bbox_inches='tight')
     plt.close()
 
-    plt.plot(range(1,tpi.number_of_insertions+1), tpi.get_moving_solubility(config.get('temperature')))
+    plt.plot(tpi.get_insertion_energies())
+    plt.ylabel(r'$\langle \exp(-\beta \Delta E)\rangle_N$')
+    plt.xlabel(r'Iteration number $N$')
+    plt.savefig(config.output_path+'solubility_'+config.get_timestamp()+'.pdf', format='pdf', bbox_inches='tight')
+    plt.show()
+
+    plt.plot(range(1,tpi.number_of_insertions+1), tpi.get_moving_solubility(config.get('temperature'), tpi.get_insertion_energies()))
     plt.ylabel(r'$\langle \exp(-\beta \Delta E)\rangle_N$')
     plt.xlabel(r'Iteration number $N$')
     plt.savefig(config.output_path+'solubility_'+config.get_timestamp()+'.pdf', format='pdf', bbox_inches='tight')

@@ -61,6 +61,7 @@ class Multiprocess:
         self._insertion_locations = [q.get() for q in self._queues_locations]
 
         [p.join() for p in self._processes]
+
         print('Processes finalized!')
 
         return self
