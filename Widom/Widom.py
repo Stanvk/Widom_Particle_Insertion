@@ -270,7 +270,8 @@ class Widom:
 
         return self.get_insertion_locations()
     
-    def get_moving_solubility(self, temperature: float, energies = None):
+    @staticmethod
+    def get_moving_solubility(temperature: float, dE: np.array):
         """
         Helper function to calculate the solubility coefficient based upon the Lennard-Jones insertion energy.
 
@@ -278,8 +279,6 @@ class Widom:
         @returns rolling_mean (np.array)
         """
         Widom.write_log("Make sure the temperature is set correctly!")
-
-        dE = self.get_insertion_energies() if energies == None else energies
 
         #dE kJ/mol
         R = 8.31446261815324/1000 #kJ / (K mol)
