@@ -7,10 +7,11 @@ from Widom.Dioxygen import Dioxygen
 from Helpers.Plotter import Plotter
 import time
 
-basepath = '/Users/stanvk/Projects/NTUA/systems/pe_configurations_298K/'
+basepath = '/Users/stanvk/Projects/NTUA/systems/amorphous_pe/'
 relative_outputpath = 'Analysis/Widom/'
 
-config_file = 'config_08_02_2024_120438' # test configuration
+# config_file = 'config_08_02_2024_120438' # test configuration
+config_file = 'config_test' # Another test configuration file
 
 config = Container(basepath, relative_outputpath).load(filename=config_file)
 
