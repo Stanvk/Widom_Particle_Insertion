@@ -11,7 +11,7 @@ basepath = '/Users/stanvk/Projects/NTUA/systems/amorphous_pe/'
 relative_outputpath = 'Analysis/Widom/'
 
 # config_file = 'config_08_02_2024_120438' # test configuration
-config_file = 'config_test' # Another test configuration file
+config_file = 'config_00_00_0000_000000' # Another test configuration file
 
 config = Container(basepath, relative_outputpath).load(filename=config_file)
 

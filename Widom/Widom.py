@@ -6,7 +6,7 @@ from datetime import datetime
 from Widom.TestParticle import TestParticle
 from Widom.Multiprocess import Multiprocess
 from MDAnalysis.lib import mdamath
-from Coordinates import Coordinates
+from Widom.Coordinates import Coordinates
 
 class Widom:
 
