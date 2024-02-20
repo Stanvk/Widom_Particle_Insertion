@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from datetime import datetime
 from Widom.TestParticle import TestParticle
 from Widom.Multiprocess import Multiprocess
+from MDAnalysis.lib import mdamath
+from Coordinates import Coordinates
 
 class Widom:
 
@@ -132,17 +134,11 @@ class Widom:
         self._sample.trajectory[frame]
         self._ag = self._sample.select_atoms('all', updating=True)
 
-        xcoods = self._ag.positions[:,0]
-        ycoods = self._ag.positions[:,1]
-        zcoods = self._ag.positions[:,2]
-
-        xmin, xmax = [np.min(xcoods), np.max(xcoods)]
-        ymin, ymax = [np.min(ycoods), np.max(ycoods)]
-        zmin, zmax = [np.min(zcoods), np.max(zcoods)]
-
         self.volume = self._ag.ts.volume
         self.number_of_insertions = number_of_insertions
-        self.insertion_locations = np.random.rand(int(number_of_insertions), 3)*np.array([xmax-xmin, ymax-ymin, zmax-zmin])+np.array([xmin, ymin, zmin], dtype='float64')
+        self.insertion_locations = np.einsum('ij,kj->ki',
+                                             Coordinates.triclinic_transformation(self._sample.dimensions),
+                                             np.random.rand(int(number_of_insertions), 3))
 
         self._test_particle.initialize_positions(self.insertion_locations)
 
@@ -161,8 +157,9 @@ class Widom:
 
         governor = Multiprocess().load(self, n_processes=self._n_processes)
         governor.run()
+        
         self.insertion_energies = governor.get_insertion_energies()
-        # self.insertion_locations = governor.insertion_locations
+        self.insertion_locations = governor.get_insertion_locations()
 
         self._run_time = time.time() - starttime
         self.write_log('Finished! Analysis ran for ' + str(self._run_time) + ' seconds')

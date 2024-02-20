@@ -14,6 +14,8 @@ class Multiprocess:
         self._insertion_locations = []
         self._insertion_energies = []
 
+        multiprocessing.set_start_method('spawn')
+
     def load(self, instance, n_processes: int):
         """
         Load the Widom class and prepare subprocesses.
@@ -57,11 +59,10 @@ class Multiprocess:
             self._processes.append(p)
             p.start()
 
-        [p.join() for p in self._processes]
-
-
         self._insertion_energies = [q.get() for q in self._queues_energies]
         self._insertion_locations = [q.get() for q in self._queues_locations]
+
+        [p.join() for p in self._processes]
 
         print('Processes finalized!')
 

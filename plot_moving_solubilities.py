@@ -13,7 +13,8 @@ from Helpers.Plotter import Plotter
 from Helpers.Container import Container
 from Widom.Widom import Widom
 
-basepath = '/Users/stanvk/Projects/NTUA/systems/amorphous_pe/'
+# basepath = '/Users/stanvk/Projects/NTUA/systems/amorphous_pe/'
+basepath = '/Users/stanvk/Projects/NTUA/systems/alpha_phase_iPP/'
 relative_outputpath = "Analysis/Widom/"
 
 LJ_energies_files = glob.glob(basepath+relative_outputpath+'energies*.txt')
@@ -32,10 +33,10 @@ for file in LJ_energies_files:
 
     Plotter()
 
-    plt.plot(LJ_energies)
-    # plt.plot(range(1,int(config.get('n_insertions')+1)), moving_solubility)
-    # plt.hlines(converged_solubility, xmin=plt.axes()[0], xmax=plt.axes()[1])
-    # plt.text(plt.axes()[0], converged_solubility, str(converged_solubility), ha='left', va='center')
+    plt.plot(range(1,int(config.get('n_insertions')+1)), moving_solubility)
+    xmin, xmax = plt.gca().get_xlim()
+    plt.hlines(converged_solubility, xmin=xmin, xmax=xmax)
+    plt.title('S = ' + str(converged_solubility))
     plt.ylabel(r'$\langle \exp(-\beta \Delta E)\rangle_N$')
     plt.xlabel(r'$\mathrm{Iteration}$ $N$')
     plt.savefig(config.output_path+'solubility_'+config.get_timestamp()+'.pdf', format='pdf', bbox_inches='tight')
