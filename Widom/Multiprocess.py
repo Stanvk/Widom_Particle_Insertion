@@ -59,8 +59,8 @@ class Multiprocess:
             self._processes.append(p)
             p.start()
 
-        self._insertion_energies = [q.get() for q in self._queues_energies]
-        self._insertion_locations = [q.get() for q in self._queues_locations]
+        self._insertion_energies = np.array([q.get() for q in self._queues_energies])
+        self._insertion_locations = np.array([q.get() for q in self._queues_locations])
 
         [p.join() for p in self._processes]
 
@@ -75,7 +75,7 @@ class Multiprocess:
         @params:
         @returns: (np.array)
         """
-        return np.array(self._insertion_energies).flatten()
+        return self._insertion_energies.flatten()
     
     def get_insertion_locations(self):
         """
@@ -84,7 +84,7 @@ class Multiprocess:
         @params:
         @returns: (np.array)
         """
-        return np.array(self._insertion_locations).flatten()
+        return self._insertion_locations.reshape(-1, self._insertion_locations.shape[-1])
 
 
 

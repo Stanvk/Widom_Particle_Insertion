@@ -30,18 +30,18 @@ for file in LJ_energies_files:
     print(timestamp)
 
     config = Container(basepath, relative_outputpath).load(filename='config_' + timestamp)
-    include_data = input('Include ' + timestamp + ', with ' + config.get('coordinate_file') + '? [y/N]')
+    # include_data = input('Include ' + timestamp + ', with ' + config.get('coordinate_file') + '? [y/N]')
     
-    if include_data == 'y':
+    # if include_data == 'y':
 
-        LJ_energies = np.loadtxt(file)
-        R = 8.31446261815324/1000 #kJ / (K mol)
-        T = config.get('temperature')
-        S = np.mean(np.exp(-LJ_energies/(R*T)))
-        
-        # crystallinities.append(float(input('crystallinity')))
-        temperatures.append(T)
-        solubilities.append(S)
+    LJ_energies = np.loadtxt(file)
+    R = 8.31446261815324/1000 #kJ / (K mol)
+    T = config.get('temperature')
+    S = np.mean(np.exp(-LJ_energies/(R*T)))
+    
+    # crystallinities.append(float(input('crystallinity')))
+    temperatures.append(T)
+    solubilities.append(S)
 
 Plotter()
 

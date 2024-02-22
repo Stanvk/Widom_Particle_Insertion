@@ -5,7 +5,6 @@ import MDAnalysis as md
 from Widom.Widom import Widom
 from Widom.Dioxygen import Dioxygen
 from Helpers.Plotter import Plotter
-import time
 
 basepath = '/Users/stanvk/Projects/NTUA/systems/amorphous_pe/'
 relative_outputpath = 'Analysis/Widom/'
@@ -24,7 +23,7 @@ config.save(filename='config_'+config.get_timestamp())
 tpi = Widom(Dioxygen(), processes=8)
 tpi.set_sample(sample, config.get('LJ_params_solvent'))
 
-tpi.prepare(frame=config.get('frame'), number_of_insertions=10000) #config.get('n_insertions'))
+tpi.prepare(frame=config.get('frame'), number_of_insertions=config.get('n_insertions'))
 
 if __name__ == '__main__':
     tpi.run()

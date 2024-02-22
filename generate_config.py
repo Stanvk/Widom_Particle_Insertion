@@ -1,4 +1,5 @@
 from Helpers.Container import Container
+import numpy as np
 
 basepath = '/Users/stanvk/Projects/NTUA/systems/pe_configurations_298K/'
 relative_outputpath = 'Analysis/Widom/'
