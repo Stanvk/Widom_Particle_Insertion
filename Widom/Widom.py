@@ -256,14 +256,20 @@ class Widom:
         """
         return self.save_LJ_energies(path, stamp)
     
-    def save_insertion_locations(self, path, stamp):
+    def save_insertion_locations(self, path, stamp, as_gro=False):
         """
         Save the insertion energies to a txt file.
 
         @params: path (str), stamp (str)
         @returns: (np.array)
         """
-        np.savetxt(path+'locations_'+stamp+'.txt', self.get_insertion_locations())
+        if as_gro:
+            u = md.Universe.empty(len(self.get_insertion_locations()), trajectory=True)
+            u.atoms.positions = self.get_insertion_locations()
+
+            u.atoms.write(path+'locations_'+stamp+'.gro', reindex=False)
+        else:
+            np.savetxt(path+'locations_'+stamp+'.txt', self.get_insertion_locations())
 
         return self.get_insertion_locations()
     

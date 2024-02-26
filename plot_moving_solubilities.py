@@ -13,7 +13,8 @@ from Helpers.Plotter import Plotter
 from Helpers.Container import Container
 from Widom.Widom import Widom
 
-basepath = '/Users/stanvk/Projects/NTUA/systems/amorphous_pe/'
+# basepath = '/Users/stanvk/Projects/NTUA/systems/alpha_phase_iPP/UA_FF/'
+basepath = '/Users/stanvk/Projects/NTUA/systems/ipp_semicrystalline/410K/500ns/'
 # basepath = '/Users/stanvk/Projects/NTUA/systems/alpha_phase_iPP/'
 # basepath = '/Users/stanvk/Projects/NTUA/systems/pe_configurations_298K/'
 relative_outputpath = "Analysis/Widom/"

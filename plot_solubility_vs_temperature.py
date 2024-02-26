@@ -51,13 +51,15 @@ Plotter()
 # crystallinities = temperatures[temperatures_sorted_indices[::-1]]
 # solubilities = solubilities[temperatures_sorted_indices[::-1]]
 
-# fit, cov = np.polyfit(temperatures, solubilities, deg=1, cov=True)
+fit, cov = np.polyfit(temperatures, solubilities, deg=1, cov=True)
 # fit2, cov2 = np.polyfit(temperatures[1:-1], solubilities[1:-1], deg=1, cov=True)
 
-temperatures = np.array(temperatures)
-solubilities = np.array(solubilities)
+fit_errors = np.sqrt(np.diag(cov))
+fit_x_data = np.linspace(298,450,100)
+fit_y_data = fit_x_data*fit[0]+fit[1]
 
 plt.plot(1000/temperatures, solubilities, 'o', label='Simulation data')
+plt.plot(1000/fit_x_data, fit_y_data, label='Extrapolation')
 # plt.plot(np.linspace(-0.05,0.4,100), fit[0]*np.linspace(-0.05,0.4,100)+fit[1], label='Linear fit')
 # plt.plot(np.linspace(-0.05,0.4,100), fit2[0]*np.linspace(-0.05,0.4,100)+fit2[1], label='Linear fit, w/o first point')
 # plt.plot(np.linspace(-0.05,0.4,100), 0.2916023555608961*(1-np.linspace(-0.05,0.4,100)), label=r'$S=S_a (1-\chi_c)$')
@@ -71,17 +73,18 @@ plt.show()
 
 plt.cla()
 plt.plot(temperatures, solubilities, 'o', label='Simulation data')
+plt.plot(fit_x_data, fit_y_data, label='Extrapolation')
 # plt.plot(np.linspace(-0.05,0.4,100), fit[0]*np.linspace(-0.05,0.4,100)+fit[1], label='Linear fit')
 # plt.plot(np.linspace(-0.05,0.4,100), fit2[0]*np.linspace(-0.05,0.4,100)+fit2[1], label='Linear fit, w/o first point')
 # plt.plot(np.linspace(-0.05,0.4,100), 0.2916023555608961*(1-np.linspace(-0.05,0.4,100)), label=r'$S=S_a (1-\chi_c)$')
 plt.ylabel(r'$S$ [-]')
-plt.xlabel(r'$T$ [K$^{-1}$]')
+plt.xlabel(r'$T$ [K]')
 # plt.xlim(-0.05, 0.4)
 plt.legend()
 plt.savefig(config.output_path+'solubility_vs_temperature.pdf', format='pdf', bbox_inches='tight')
 plt.show()
 
 # print('Regression coefficients:')
-# print(fit)
+# print(fit)    
 # print('Parameter uncertainties:')
 # print(np.sqrt(np.diag(cov)))
