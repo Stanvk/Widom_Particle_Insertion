@@ -35,10 +35,11 @@ Lastly, the TPI measurement can be run by ```Widom.run()```. The insertion locat
 if __name__ == '__main__':
     tpi.run()
 
-    tpi.save_insertion_energies(config.output_path, config.get_timestamp())
-    tpi.save_insertion_locations(config.output_path, config.get_timestamp())
+    tpi.save_insertion_energies(output_path, 'energies.txt')
+    tpi.save_insertion_locations(output_path, 'locations.txt')
 
 ```
+Here, ```output_path``` contains the output path of the energies and locations files.
 
 ## References
 [1] Widom, B. (1963). Some topics in the theory of fluids. The Journal of Chemical Physics, 39(11), 2808-2812.
