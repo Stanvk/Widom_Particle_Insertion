@@ -1,0 +1,7 @@
+@software{van_Kraaij_2023_Widom,
+  author = {S.A.T. van Kraaij},
+  title = {{Widom}},
+  url = {https://github.com/stanvk/widom},
+  version = {1.0},
+  year = {2023}
+}
