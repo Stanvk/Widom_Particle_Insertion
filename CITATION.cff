@@ -1,0 +1,9 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "van Kraaij"
+  given-names: "S.A.T."
+title: "Widom"
+version: 1.0
+date-released: 2024-02-27
+url: "https://github.com/stanvk/widom"
