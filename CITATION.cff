@@ -4,6 +4,6 @@ authors:
 - family-names: "van Kraaij"
   given-names: "S.A.T."
 title: "Widom"
-version: 1.0
+version: 1.0.0
 date-released: 2024-02-27
 url: "https://github.com/stanvk/widom"
