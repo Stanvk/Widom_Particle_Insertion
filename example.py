@@ -20,7 +20,7 @@ config.set('test_particle', 'Dioxygen')
 config.set('frame_series', np.arange(0,len(sample.trajectory),1).tolist())
 config.save(filename='config_'+config.get_timestamp())
 
-tpi = Widom(Dioxygen(), processes=8)
+tpi = Widom(Dioxygen(), processes=4)
 tpi.set_sample(sample, config.get('LJ_params_solvent'))
 
 tpi.prepare(frame=config.get('frame'), number_of_insertions=config.get('n_insertions'))

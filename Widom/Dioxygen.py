@@ -22,8 +22,8 @@ class Dioxygen(TestParticle):
         @params: (None)
         @returns: Lennard-Jones cut-off radius in Ångstrom. (float)
         """
-        # return 14 #angstrom
-        return 9.09 #angstrom; values from Nikos used for testing
+        return 14 #angstrom
+        # return 9.09 #angstrom; values from Nikos used for testing
     
     def get_atomtypes(self):
         """

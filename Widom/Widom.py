@@ -7,6 +7,7 @@ from Widom.TestParticle import TestParticle
 from Widom.Multiprocess import Multiprocess
 from MDAnalysis.lib import mdamath
 from Widom.Coordinates import Coordinates
+from MDAnalysis.analysis.distances import distance_array
 
 class Widom:
 
@@ -99,14 +100,13 @@ class Widom:
         @params: insertion_pos
         @returns: lennard-jones potential for given insertion_pos
         """
-        
-        distances = np.linalg.norm(ag.positions - insertion_pos, axis=-1)
 
+        distances = distance_array(insertion_pos, ag.positions, box=self._sample.dimensions, backend='serial')
         distances[distances > self._test_particle.get_LJ_cutoff_radius()] = np.inf
 
         correction_term = self.lennard_jones_correction_term(self._test_particle.get_LJ_cutoff_radius(), self._combined_epsilons, self._combined_sigmas, self.volume).sum()
         return self.lennard_jones_potential(distances, self._combined_epsilons, self._combined_sigmas).sum() + correction_term
-    
+
     def set_sample(self, sample: md.core.universe, LJ_params: dict):
         """
         Prepare the sample using MDAnalysis.
@@ -154,8 +154,9 @@ class Widom:
         self.write_log("Starting Widom Particle Insertion Analysis")
         self.write_log(str(self._n_processes) + " process(es) will be used!")
         starttime = time.time()
-
+        self.write_log('Initialize governor!')
         governor = Multiprocess().load(self, n_processes=self._n_processes)
+        self.write_log('Run governor!')
         governor.run()
         
         self.insertion_energies = governor.get_insertion_energies()
@@ -185,8 +186,8 @@ class Widom:
             insertion_locations_consituent = self._test_particle.get_positions()[:,constituent,:]
 
             for i in range(self.number_of_insertions):
-
                 LJ_energies[i, constituent] = self._calculate_LJ_energy(insertion_locations_consituent[i, :], self._ag)
+
 
         self.insertion_energies = LJ_energies.sum(axis=-1)
 
@@ -302,3 +303,12 @@ class Widom:
         print(message, flush=flush)
         
         return message
+    
+    @staticmethod
+    def version():
+        """
+        Return version of Widom.
+
+        @return version (str)
+        """
+        return '1.0.0'

@@ -57,6 +57,7 @@ class Multiprocess:
                 ))
             
             self._processes.append(p)
+            print('Starting up process ' + str(i) + ' now...')
             p.start()
 
         self._insertion_energies = np.array([q.get() for q in self._queues_energies])
