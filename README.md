@@ -3,7 +3,7 @@ This Python project provides a means of running parallelized Widom's Test Partic
 molecular-dynamics or monte-carlo simulations. This package relies partly on MDAnalysis such that a large array of trajectory files are supported, such as GROMACS's .trr file and LAMPS's .data file.
 
 ## Requirements
-The MDAnalysis package is needed, which can be installed with
+The MDAnalysis package (https://www.mdanalysis.org/) is needed, which can be installed with
 ```
 pip install MDAnalysis
 ```
@@ -12,7 +12,7 @@ MDAnalysis will include Numpy, which is also required when using Widom.
 
 ## Usage
 
-First of all, the ```MDAnalysis``` package (https://www.mdanalysis.org/) is required to load the configuration files. Apart from MDAnalysis, we also include ```Widom.Widom``` and the test-particle, which will be oxygen; ```Widom.Dioxygen```.
+First of all, the ```MDAnalysis``` package is required to load the configuration files. Apart from MDAnalysis, we also include ```Widom.Widom``` and the test-particle, which will be oxygen; ```Widom.Dioxygen```.
 
 ```python
 import MDAnalysis as md
