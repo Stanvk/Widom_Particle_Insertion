@@ -154,9 +154,11 @@ class Widom:
         self.write_log("Starting Widom Particle Insertion Analysis")
         self.write_log(str(self._n_processes) + " process(es) will be used!")
         starttime = time.time()
-        self.write_log('Initialize governor!')
+
+
         governor = Multiprocess().load(self, n_processes=self._n_processes)
-        self.write_log('Run governor!')
+        self.write_log('Governor initialized!')
+        
         governor.run()
         
         self.insertion_energies = governor.get_insertion_energies()
@@ -311,4 +313,4 @@ class Widom:
 
         @return version (str)
         """
-        return '1.0.0'
+        return '1.1.0'
