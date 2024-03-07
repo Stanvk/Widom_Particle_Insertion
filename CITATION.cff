@@ -3,7 +3,7 @@ message: "If you use this software, please cite it as below."
 authors:
 - family-names: "van Kraaij"
   given-names: "S.A.T."
-title: "Widom"
+title: "Widom: A Python Package for Test-Particle Insertion"
 version: 1.1.0
 date-released: 2024-02-27
 url: "https://github.com/stanvk/widom"
