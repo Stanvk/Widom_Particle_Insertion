@@ -3,6 +3,15 @@ import numpy as np
 
 class Dioxygen(TestParticle):
 
+    def get_LJ_cutoff_radius(self) -> float:
+        """
+        Retrieve the cut-off distance for the Lennard-Jones potential. The units are in Ångstroms (Å).
+
+        @params: (None)
+        @returns: Lennard-Jones cut-off radius in Ångstrom. (float)
+        """
+        return 14 #angstrom
+
     def get_LJ_params(self):
         """
         Return an array where each row contains the LJ pair epsilon and sigma for the constituent for the testparticle
@@ -12,18 +21,6 @@ class Dioxygen(TestParticle):
         """
         # kJ/mol en Å
         return np.array([[0.40734, 3.02], [0.40734, 3.02]])
-        # return np.array([[0.407409, 3.02], [0.407409, 3.02]]) # Values from Nikos used for testing.
-
-    
-    def get_LJ_cutoff_radius(self) -> float:
-        """
-        Retrieve the cut-off distance for the Lennard-Jones potential. The units are in Ångstroms (Å).
-
-        @params: (None)
-        @returns: Lennard-Jones cut-off radius in Ångstrom. (float)
-        """
-        return 14 #angstrom
-        # return 9.09 #angstrom; values from Nikos used for testing
     
     def get_atomtypes(self):
         """
@@ -35,20 +32,6 @@ class Dioxygen(TestParticle):
 
         return np.array(['O','O'])
     
-    @staticmethod
-    def __transform_spherical_to_cartesian(r, theta, phi):
-        """
-        A static method that performs a coordinate transformations from spherical coordinates to cartesian ones.
-
-        @params: r (float), theta (float), phi (float)
-        @returns: cartesian coordinates (np.array)
-        """
-        x = r * np.sin(theta, dtype=np.float64) * np.cos(phi, dtype=np.float64)
-        y = r * np.sin(theta, dtype=np.float64) * np.sin(phi, dtype=np.float64)
-        z = r * np.cos(theta, dtype=np.float64)
-
-        return np.array([x, y, z])
-
     def _calculate_positions(self, center) -> np.array:
         """
         Give the positions of the test-particle constituents.
@@ -65,3 +48,17 @@ class Dioxygen(TestParticle):
         part = Dioxygen.__transform_spherical_to_cartesian(r, theta, phi)
 
         return np.array([center+part, center-part]) 
+    
+    @staticmethod
+    def __transform_spherical_to_cartesian(r, theta, phi):
+        """
+        A static method that performs a coordinate transformations from spherical coordinates to cartesian ones.
+
+        @params: r (float), theta (float), phi (float)
+        @returns: cartesian coordinates (np.array)
+        """
+        x = r * np.sin(theta, dtype=np.float64) * np.cos(phi, dtype=np.float64)
+        y = r * np.sin(theta, dtype=np.float64) * np.sin(phi, dtype=np.float64)
+        z = r * np.cos(theta, dtype=np.float64)
+
+        return np.array([x, y, z])
