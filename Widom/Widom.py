@@ -165,7 +165,9 @@ class Widom:
         self.insertion_locations = governor.get_insertion_locations()
 
         self._run_time = time.time() - starttime
-        self.write_log('Finished! Analysis ran for ' + str(self._run_time) + ' seconds')
+        self.write_log('Finished! Analysis ran for ' + str(self._run_time) + ' seconds!')
+        self.write_log('Average insertion energy is ' + np.mean(self.get_insertion_energies)+' kJ/mol.')
+        self.write_log('In total there were ' + len(self.get_insertion_locations) + ' insertions performed.')
 
         return self
         
