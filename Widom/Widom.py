@@ -22,46 +22,6 @@ class Widom:
         self._n_processes = processes
         self.insertion_energies = np.array([])
 
-    @staticmethod
-    def lennard_jones_potential(dist: np.array, epsilon: np.array, sigma: np.array):
-        """
-        Calculate LJ potential by the 12/6 LJ function. Supports matrix-matrix arithmetics for fast bulk calculations.
-
-        @params: dist (np.array), epsilon (np.array), sigma (np.array)
-        @returns: (np.array)
-        """
-        # c6 = 4*epsilon*sigma**6
-        # c12 = 4*epsilon*sigma**12
-        
-        return 4*epsilon*((sigma/dist)**(12)-(sigma/dist)**6)
-    
-    @staticmethod
-    def lennard_jones_correction_term(cut_off_radius, epsilon, sigma, volume):
-        """
-        Calculate the correction term for the Lennard-Jones potential energy, according to "Solubilities of small molecules in polyethylene evaluated by
-        a test-particle-insertion method" from Fukuda, 2000.
-        
-        @params: cut_off_radius (mixed), epsilon (mixed), sigma (mixed), volume (mixed)
-        @returns: correction term (mixed)
-        """
-        c6 = 4*epsilon*sigma**6
-        c12 = 4*epsilon*sigma**12
-
-        return (4/9)*(np.pi/volume)*(c12/(cut_off_radius**9)-3*c6/(cut_off_radius**3))
-    
-    @staticmethod
-    def _compose_combined_LJ_params(epsilon_tp, sigma_tp, epsilons, sigmas) -> list:
-        """
-        Compose combined LJ parameters according to Lorentz-Berthelot combination rules.
-
-        @params: epislon_tp (float), sigma_tp (float), epsilons (list), sigmas (list)
-        @returns: [combined_epsilons, combined_sigmas] (list)
-        """
-        combined_sigmas = np.array(0.5*(sigma_tp+sigmas))
-        combined_epsilons = np.array(np.sqrt(epsilon_tp*epsilons))
-
-        return [combined_epsilons, combined_sigmas]
-    
     def _defined_atomtypes(self):
         """
         Give a list of all the atoms that we're interested in.
@@ -151,7 +111,7 @@ class Widom:
         @params: processes (int)
         @returns: (self)
         """
-        self.write_log("Starting Widom Particle Insertion Analysis")
+        self.write_log("Widom: A Python Package for Test-Particle Insertion (version "+str(Widom.version())+")")
         self.write_log(str(self._n_processes) + " process(es) will be used!")
         starttime = time.time()
 
@@ -166,9 +126,10 @@ class Widom:
 
         self._run_time = time.time() - starttime
         self.write_log('Finished! Analysis ran for ' + str(self._run_time) + ' seconds!')
-        self.write_log('Average insertion energy is ' + np.mean(self.get_insertion_energies)+' kJ/mol.')
-        self.write_log('In total there were ' + len(self.get_insertion_locations) + ' insertions performed.')
-
+        self.write_log('Average insertion energy is ' + str(np.mean(self.get_insertion_energies())) + ' kJ/mol.')
+        self.write_log('In total there were ' + str(len(self.get_insertion_locations())) + ' insertions performed.')
+        self.write_log('This analysis was finalized on ' + str(datetime.now().strftime("%d-%m-%Y at %H:%M:%S")) + '.')
+        
         return self
         
     def run_analysis(self):
@@ -279,6 +240,46 @@ class Widom:
         return self.get_insertion_locations()
     
     @staticmethod
+    def lennard_jones_potential(dist: np.array, epsilon: np.array, sigma: np.array):
+        """
+        Calculate LJ potential by the 12/6 LJ function. Supports matrix-matrix arithmetics for fast bulk calculations.
+
+        @params: dist (np.array), epsilon (np.array), sigma (np.array)
+        @returns: (np.array)
+        """
+        # c6 = 4*epsilon*sigma**6
+        # c12 = 4*epsilon*sigma**12
+        
+        return 4*epsilon*((sigma/dist)**(12)-(sigma/dist)**6)
+    
+    @staticmethod
+    def lennard_jones_correction_term(cut_off_radius, epsilon, sigma, volume):
+        """
+        Calculate the correction term for the Lennard-Jones potential energy, according to "Solubilities of small molecules in polyethylene evaluated by
+        a test-particle-insertion method" from Fukuda, 2000.
+        
+        @params: cut_off_radius (mixed), epsilon (mixed), sigma (mixed), volume (mixed)
+        @returns: correction term (mixed)
+        """
+        c6 = 4*epsilon*sigma**6
+        c12 = 4*epsilon*sigma**12
+
+        return (4/9)*(np.pi/volume)*(c12/(cut_off_radius**9)-3*c6/(cut_off_radius**3))
+    
+    @staticmethod
+    def _compose_combined_LJ_params(epsilon_tp, sigma_tp, epsilons, sigmas) -> list:
+        """
+        Compose combined LJ parameters according to Lorentz-Berthelot combination rules.
+
+        @params: epislon_tp (float), sigma_tp (float), epsilons (list), sigmas (list)
+        @returns: [combined_epsilons, combined_sigmas] (list)
+        """
+        combined_sigmas = np.array(0.5*(sigma_tp+sigmas))
+        combined_epsilons = np.array(np.sqrt(epsilon_tp*epsilons))
+
+        return [combined_epsilons, combined_sigmas]
+    
+    @staticmethod
     def get_moving_solubility(temperature: float, dE: np.array):
         """
         Helper function to calculate the solubility coefficient based upon the Lennard-Jones insertion energy.
@@ -316,3 +317,4 @@ class Widom:
         @return version (str)
         """
         return '1.1.0'
+    
