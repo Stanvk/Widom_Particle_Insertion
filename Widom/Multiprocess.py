@@ -14,7 +14,10 @@ class Multiprocess:
         self._insertion_locations = []
         self._insertion_energies = []
 
-        multiprocessing.set_start_method('spawn')
+        try:
+            multiprocessing.set_start_method('spawn')
+        except RuntimeError as err:
+            print(f"Unexpected {err=}, {type(err)=}")
 
     def load(self, instance, n_processes: int):
         """
