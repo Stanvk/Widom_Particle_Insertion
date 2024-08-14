@@ -2,7 +2,7 @@
 This Python project provides a means of running parallelized Widom's Test Particle Insertion Method [1] on all sorts of configurations drawn from
 molecular-dynamics or monte-carlo simulations. This package relies partly on MDAnalysis such that a large array of trajectory files are supported, such as GROMACS's .trr file and LAMPS's .data file.
 
-**If you use this softwork in your work, please cite it as**
+**If you use this software in your work, please cite it as**
 
 "_van Kraaij, S. (2024). Widom: A Python Package for Test-Particle Insertion (Version 1.1.0) [Computer software]. https://github.com/stanvk/widom_"
 
