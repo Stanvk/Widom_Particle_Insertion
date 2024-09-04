@@ -4,8 +4,6 @@ molecular-dynamics or monte-carlo simulations. This package relies partly on MDA
 
 **If you use this software in your work, please cite it as**
 
-"_van Kraaij, S. (2024). Widom: A Python Package for Test-Particle Insertion (Version 1.1.0) [Computer software]. https://github.com/stanvk/widom_"
-
 ## Requirements
 The MDAnalysis package (https://www.mdanalysis.org/) is needed, which can be installed via
 ```
