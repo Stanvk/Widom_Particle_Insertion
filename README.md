@@ -5,7 +5,7 @@ molecular-dynamics or monte-carlo simulations. This package relies partly on MDA
 **If you use this software in your work, please cite it as**
 
 ```
-Sigalas, N. I., van Kraaij, S. A., Venetsanos, F., Anogiannakis, S. D., Theodorou, D. N., & Lyulin, A. V. (2024). Measuring Oxygen Solubility in Amorphous and Semicrystalline Polyolefins Using Test Particle Insertion: A Comparative Study of Polyethylene and Isotactic Polypropylene. The Journal of Physical Chemistry B.
+Sigalas, N. I., van Kraaij, S. A. T., Venetsanos, F., Anogiannakis, S. D., Theodorou, D. N., & Lyulin, A. V. (2024). Measuring Oxygen Solubility in Amorphous and Semicrystalline Polyolefins Using Test Particle Insertion: A Comparative Study of Polyethylene and Isotactic Polypropylene. The Journal of Physical Chemistry B.
 ```
 
 ## Requirements
