@@ -2,8 +2,9 @@
 This Python project provides a means of running parallelized Widom's Test Particle Insertion Method [1] on all sorts of configurations drawn from
 molecular-dynamics or monte-carlo simulations. This package relies partly on MDAnalysis such that a large array of trajectory files are supported, such as GROMACS's .trr file and LAMPS's .data file.
 
-**If you use this software in your work, please cite it as**
+## Citation
 
+When using (parts of) this software, please cite the following journal reference
 ```
 Sigalas, N. I., van Kraaij, S. A. T., Venetsanos, F., Anogiannakis, S. D., Theodorou, D. N., & Lyulin, A. V. (2024). Measuring Oxygen Solubility in Amorphous and Semicrystalline Polyolefins Using Test Particle Insertion: A Comparative Study of Polyethylene and Isotactic Polypropylene. The Journal of Physical Chemistry B.
 ```
